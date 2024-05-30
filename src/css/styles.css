@@ -1,0 +1,42 @@
+body {
+    background-image: url('../assets/background.jpg');
+    margin: 0;
+    font-family: Arial, sans-serif;
+    /* height: 100% */
+}
+
+.center{
+    text-align: center;
+}
+
+/* 
+<div class="side-block">Left Sidebar</div>
+<div class="main-content">Main Content</div>
+<div class="side-block">Right Sidebar</div> */
+
+/* .container {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100vh;
+}
+
+.side-block {
+    flex: 1 1 200px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-sizing: border-box;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 2 1 400px;
+    padding: 20px;
+    box-sizing: border-box;
+    min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+} */
