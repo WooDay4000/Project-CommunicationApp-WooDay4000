@@ -9,13 +9,30 @@
 
 <body>
     <div class="container">
-        <h1 class="center">Communication App</h1>
-        <input type="text" id="userName" class="center">
-    </div>
-</body>
+        <h1 class="header">Communication App</h1>
+        <div id="nameInput">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter name">
+        </div>
+        <div id="keyInput">
+            <label for="key">Key:</label>
+            <input type="text" id="key" name="key" placeholder="Enter key">
+        </div>
+        <button id="submitIndex" type="submit">Submit</button>
 
-<footer>
+        <p id="instructions">
+            Instructions<br>
+            ------------<br>
+            To be able to begin chatting with someone, first input a name that you would like to go by during the chat,
+            please be respectful, to the name input. The key input is used to help connect to the person you would like
+            to chat with, acting as the shared instance that connects the two. With these inputs filled, you'll be able
+            to click the submit button which will attempt to send you to a chat room with the person that has the shared
+            key. When successful you will be able to begin chatting with the person, if unsuccessful it sends you back
+            to the starting page to prompt another attempt to connect via the submit button or changing the key variable
+            if the issue lies there.
+        </p>
+    </div>
     <link rel="stylesheet" href="../src/css/styles.css">
-</footer>
+</body>
 
 </html>

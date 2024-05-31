@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communication App</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="header">"User's Two Name" Chat Room</h1>
+        <div id="loadingIndicator">
+            <p>Data Loading...</p>
+            <image src="../src/assets/loading.gif" class="loading-indicator"></image>
+        </div>
+        <div class="chat-container">
+            <div class="chat-box" id="chatBox">
+                <!-- Chat messages will go here -->
+                <div class="message">Hello!</div>
+                <div class="message">Hi there!</div>
+                <div class="message">How are you?</div>
+                <!-- Add more messages as needed -->
+            </div>
+        </div>
+        <div class="input-container">
+            <input type="text" id="messageInput" name="message" placeholder="Enter your message...">
+            <button id="submitMessage" type="submit">Enter</button>
+        </div>
+        <p id="instructions">
+            Instructions<br>
+            ------------<br>
+            To chat with the other person is simple, simply type the message you would like to send into the text input,
+            click enter to send it to the other person, and display it in the chat box. That should be it and please
+            enjoy, just be mindful of the other person and be considerate.
+        </p>
+    </div>
+    <link rel="stylesheet" href="../src/css/styles.css">
+</body>
+
+</html>
