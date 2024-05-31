@@ -112,7 +112,8 @@ input[type="text"] {
 that can be used to select elements based on their position, such as
 even and odd being used to select every even and odd-numbered element,
 and apply the correct styling based on if there an odd or even instance
-of this element. */
+of this element. Mainly for example because messages aren't going to be
+in a set even and odd order.*/
 .message:nth-child(odd) {
     background-color: #d1e7ff;
     align-self: flex-start;
