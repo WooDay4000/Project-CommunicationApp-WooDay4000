@@ -6,7 +6,7 @@
   "scripts": {
     "webpack": "webpack",
     "build": "webpack --config webpack.config.js",
-    "watch": "webpack serve --open", 
+    "watch": "webpack serve --open",
     "apiServer": "json-server --watch data/db.json"
   },
   "devDependencies": {
@@ -31,6 +31,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "ably": "^2.0.4",
     "babel-loader": "^8.2.5",
     "bootstrap": "^5.2.1",
     "bootstrap-less": "^3.3.8",
