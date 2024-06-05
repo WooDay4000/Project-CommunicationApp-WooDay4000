@@ -10,24 +10,28 @@ class Blather {
         this.$loadingIndicator = document.querySelector('#loadingIndicator');
 
         this.userInformation = JSON.parse(localStorage.getItem("userInformation"));
-        document.getElementById("room-number").innerHTML = this.userInformation.key;
-        this.ably = new Ably.Realtime(ABLY_KEY);
-        this.channel = this.ably.channels.get(this.userInformation.key);
+        if (this.userInformation == null) {
+            document.getElementById("room-number").innerHTML = "Nothing";
+        } else {
+            document.getElementById("room-number").innerHTML = this.userInformation.key;
+            this.ably = new Ably.Realtime(ABLY_KEY);
+            this.channel = this.ably.channels.get(this.userInformation.key);
 
-        this.publishMessage = this.publishMessage.bind(this);
-        this.$submit.addEventListener('click', this.publishMessage);
+            this.publishMessage = this.publishMessage.bind(this);
+            this.$submit.addEventListener('click', this.publishMessage);
 
-        this.displayMessages();
+            this.displayMessages();
+        }
     }
 
     publishMessage() {
         const messageData = {
             timestamp: new Date().toISOString(),
+            name: "chat_message",
             data: {
-                userName: this.userInformation.name,
+                sender: this.userInformation.name,
                 message: this.$message.value,
             },
-            name: "chat_message",
         };
 
         const headers = new Headers({
@@ -43,7 +47,7 @@ class Blather {
             .then(response => response.json())
             .then(data => {
                 console.log('Message published successfully:', data);
-                this.displayMessages(); // Update UI after publishing message
+                this.displayMessages();
             })
             .catch(error => {
                 console.error('Error publishing message:', error);
@@ -62,15 +66,23 @@ class Blather {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Message history:', data);
+                //const messageData = JSON.parse(data[0].data);
+                const messageData = {};
+                for (const message of data) {
+                    messageData += {
+                        timestamp: message.timestamp,
+                        name: message.name,
+                        data: JSON.parse(message.data)
+                    }
+                }
+                console.log('Message history:', messageData);
                 this.$loadingIndicator.classList.remove('visually-hidden');
-                this.$chatBox.innerHTML = ""; // Clear chat box before updating
-                if (data.length !== 0) {
-                    let messageHtml = data.reduce(
-                        (html, message, index) => html += this.generateMessageHtml(message),
-                        ''
+                this.$chatBox.innerHTML = "";
+                if (messageData.length !== 0) {
+                    let messageHtml = messageData.reduce(
+                        (html, message) => html += this.generateMessageHtml(message),
                     );
-                    this.$chatBox.innerHTML = messageHtml; // Update chat box with new messages
+                    this.$chatBox.innerHTML = messageHtml;
                 } else {
                     this.$chatBox.innerHTML = `<div></div>`;
                 }
@@ -78,13 +90,12 @@ class Blather {
             .catch((error) => {
                 this.$loadingIndicator.classList.add('visually-hidden');
                 console.error("Fetch error: ", error);
-                // Consider displaying an error message to the user
             });
     }
 
     generateMessageHtml(message) {
         console.log("Message:", message); // Check the message object
-        const messageHtml = `<div>${message.userName} - ${message.message}</div>`;
+        const messageHtml = `<div>${message.data.sender} - ${message.data.message}</div>`;
         console.log("Message HTML:", messageHtml); // Check the generated HTML
         return messageHtml;
     }
