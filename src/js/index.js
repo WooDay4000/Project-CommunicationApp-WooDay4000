@@ -7,21 +7,22 @@ class ChatSetUp {
         this.$key = document.getElementById("key");
         this.$submit = document.getElementById("submitIndex");
 
-        this.onSubmit = this.onSubmit.bind(this).$key
-        this.$submit.addEventListener('click', this.onSubmit);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.$submit.addEventListener('click', this.onFormSubmit);
     }
 
-    onSubmit() {
-        let userInfomation = this.getInputValues();
-        let inputResults = this.validateInputResults(userInfomation);
+    onFormSubmit(event) {
+        event.preventDefault();
+        let userInformation = this.getInputValues();
+        let inputResults = this.validateInputResults(userInformation);
 
-        if(inputResults.isValid){
-            this.removeErrors();
-            this.chatValidated(userInfomation)
+        if (inputResults.isValid) {
+            this.removeErrors(inputResults.result);
+            this.connectionValidated(userInformation)
         }
         else {
-            this.removeErrors();
-            this.hightlightErrors(inputResults.result);
+            this.removeErrors(inputResults.result);
+            this.highlightErrors(inputResults.result);
         }
     }
 
@@ -32,19 +33,19 @@ class ChatSetUp {
         };
     }
 
-    validateInputResults(userInfomation) {
+    validateInputResults(userInformation) {
         const namePattern = /^.{1}/;
         const keyPattern = /^\d{5}$/;
 
         const result = {
-            name: namePattern.test(userInfomation.name),
-            key: keyPattern.test(userInfomation.key),
+            name: namePattern.test(userInformation.name),
+            key: keyPattern.test(userInformation.key),
         };
 
-        let field, isValid = true;
+        let felid, isValid = true;
 
-        for (field in result) {
-            isValid = isValid && result[feild];
+        for (felid in result) {
+            isValid = isValid && result[felid];
         }
 
         return {
@@ -58,26 +59,27 @@ class ChatSetUp {
         this.$key.value = "";
     }
 
-    hightlightErrors(result) {
-        if(!result.name){
+    highlightErrors(result) {
+        if (!result.name) {
             this.$userName.classList.add('is-invalid');
         }
-        if(!result.key){
+        if (!result.key) {
             this.$key.classList.add('is-invalid');
         }
     }
 
     removeErrors(result) {
-        if(!result.name){
+        if (!result.name) {
             this.$userName.classList.remove('is-invalid');
         }
-        if(!result.key){
+        if (!result.key) {
             this.$key.classList.remove('is-invalid');
         }
     }
 
-    chatValidated(userInfomation){
-        
+    connectionValidated(userInformation) {
+        localStorage["userInformation"] = JSON.stringify(userInformation);
+        window.location.href = "blather.html";
     }
 }
 
