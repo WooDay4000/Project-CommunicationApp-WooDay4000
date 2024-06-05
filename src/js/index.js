@@ -6,6 +6,12 @@ class ChatSetUp {
         this.$userName = document.getElementById("name");
         this.$key = document.getElementById("key");
         this.$submit = document.getElementById("submitIndex");
+        this.error = JSON.parse(localStorage.getItem("fetchError"));;
+
+        if(this.error != null) {
+            alert("Error! Please Try Again! Error Message: " + this.error);
+        }
+        
 
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.$submit.addEventListener('click', this.onFormSubmit);

@@ -68,6 +68,7 @@ body {
 }
 
 .loading-indicator {
+    background-image: url(../assets/images/loading.gif);
     max-height: 50px;
     max-width: 50px;
     display: block;
