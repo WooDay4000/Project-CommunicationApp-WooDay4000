@@ -17,9 +17,20 @@ class Blather {
             this.ably = new Ably.Realtime(ABLY_KEY);
             this.channel = this.ably.channels.get(this.userInformation.key);
 
+            this.channel.subscribe((message) => {
+                //console.log("New message received: " + message.data);
+                this.displayMessages();
+            });
+
             this.publishMessage = this.publishMessage.bind(this);
             this.$submit.addEventListener('click', this.publishMessage);
 
+            document.getElementById('messageInput').addEventListener('keydown', (event) => {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    this.publishMessage();
+                }
+            });
             this.displayMessages();
         }
     }
@@ -47,6 +58,7 @@ class Blather {
             .then(response => response.json())
             .then(data => {
                 console.log('Message published successfully:', data);
+                this.$message.value = "";
                 this.displayMessages();
             })
             .catch(error => {
@@ -66,26 +78,28 @@ class Blather {
         })
             .then(response => response.json())
             .then(data => {
-                //const messageData = JSON.parse(data[0].data);
-                const messageData = {};
+                let messageData = [];
                 for (const message of data) {
-                    messageData += {
+                    messageData.push({
                         timestamp: message.timestamp,
                         name: message.name,
                         data: JSON.parse(message.data)
-                    }
+                    });
                 }
                 console.log('Message history:', messageData);
                 this.$loadingIndicator.classList.remove('visually-hidden');
                 this.$chatBox.innerHTML = "";
                 if (messageData.length !== 0) {
-                    let messageHtml = messageData.reduce(
-                        (html, message) => html += this.generateMessageHtml(message),
-                    );
+                    messageData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                    let messageHtml = messageData.reduce((html, message) => {
+                        return html + this.generateMessageHtml(message);
+                    }, '');
                     this.$chatBox.innerHTML = messageHtml;
                 } else {
                     this.$chatBox.innerHTML = `<div></div>`;
                 }
+                let scrollableElement = document.querySelector('.scrollable');
+                scrollableElement.scrollTop = scrollableElement.scrollHeight;
             })
             .catch((error) => {
                 this.$loadingIndicator.classList.add('visually-hidden');
@@ -93,11 +107,23 @@ class Blather {
             });
     }
 
+
     generateMessageHtml(message) {
-        console.log("Message:", message); // Check the message object
+        return `
+            <div class="message ${message.data.sender == this.userInformation.name ? 'current-user' : 'other-user'}">
+                <div class="sender">
+                    <h7>${message.data.sender}</h7>
+                </div>    
+                <div class="user-message">
+                    <p>${message.data.message}</p>
+                </div>
+            </div>
+        `
+
+        /* console.log("Message:", message); // Check the message object
         const messageHtml = `<div>${message.data.sender} - ${message.data.message}</div>`;
         console.log("Message HTML:", messageHtml); // Check the generated HTML
-        return messageHtml;
+        return messageHtml; */
     }
 }
 

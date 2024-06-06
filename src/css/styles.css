@@ -57,14 +57,39 @@ body {
 }
 
 #messageInput {
-   width: 100%;
-   margin-right: 5px;
+    width: 100%;
+    margin-right: 5px;
 }
 
 .scrollable {
-    max-height: 500px;
-    max-width: 500px;
+    height: 500px;
+    max-width: 100%;
     overflow-y: auto;
+}
+
+.message {
+    padding: 5px;
+}
+
+.current-user {
+    padding-left: 50%;
+}
+
+.other-user {
+    width: 50%;
+}
+
+.sender {
+    color: white;
+    background-color: gray;
+    border: 0.5px solid black;
+    padding-left: 5px;
+}
+
+.user-message {
+    background-color: white;
+    border: 0.5px solid black;
+    padding-left: 5px;
 }
 
 .loading-indicator {
