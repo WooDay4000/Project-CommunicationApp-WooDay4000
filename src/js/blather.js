@@ -293,8 +293,8 @@ class Blather {
 }
 
 // When the page has fully loaded, it will make
-// an object of the Blather class, consenting it's
-// variables and method.
+// an object of the Blather class, consenting of it's
+// variables and methods.
 window.onload = () => {
     new Blather();
 }

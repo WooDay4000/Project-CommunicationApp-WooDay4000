@@ -153,6 +153,9 @@ class ChatSetUp {
     }
 }
 
+// When the page has fully loaded, it will make
+// an object of the ChatSetUp class, consenting of it's
+// variables and methods.
 window.onload = () => {
     new ChatSetUp();
 }
