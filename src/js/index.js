@@ -7,12 +7,16 @@ class ChatSetUp {
         this.$key = document.getElementById("key");
         this.$submit = document.getElementById("submitIndex");
         this.error = JSON.parse(localStorage.getItem("fetchError"));;
+        this.userInformation = JSON.parse(localStorage.getItem("userInformation"));
 
-        if(this.error != null) {
+        if (this.error != null) {
             alert("Error! Please Try Again! Error Message: " + this.error);
+            localStorage.setItem("fetchError", JSON.stringify(""));
         }
-        
-
+        else if ((!this.$userName.value && !this.$key.value) && this.userInformation) {
+            this.$userName.value = this.userInformation.name == "" ? "" : this.userInformation.name;
+            this.$key.value = this.userInformation.key == "" ? "" : this.userInformation.key;
+        }
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.$submit.addEventListener('click', this.onFormSubmit);
     }

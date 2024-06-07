@@ -9,26 +9,27 @@
 
 <body>
     <div class="container">
-        <h1 class="title text-center">Chat Room "<span id="room-number"></span>"</h1>
-        <div id="loadingIndicator" class="text-center">
-        </div>
-        <div id="chat-container">
+        <h1 class="title text-center">Chat Room "<span id="roomNumber"></span>"</h1>
+        <div id="chatContainer">
             <div class="scrollable">
-                <div id="chat-box">
-                    
+                <div id="chatBox">
                 </div>
             </div>
-            <div id="chat-input">
+            <div id="chatInput">
                 <input type="text" id="messageInput" name="message" placeholder="Enter your message..." re>
                 <button id="submitMessage" type="submit">Enter</button>
             </div>
         </div>
+        <div class="buttonContainer">
+            <button id="return-button" type="submit" class="btn btn-primary ">Go Back</button>
+        </div>
         <h3 class="title text-center">Instructions</h3>
         <p class="instructions">
-            To chat with the other person is simple, simply type the message you would like to send into the text
-            input,
-            click enter to send it to the other person, and display it in the chat box. That should be it and please
-            enjoy, just be mindful of the other person and be considerate.
+            To begin chatting, type your message into the text input, then click or hit enter to display it in the chat
+            box for others to see. Be mindful and considerate in the chat room. Messages will be kept and displayed for
+            24 hours while the chat room is inactive and persist indefinitely if active. If you're done with the current
+            chat and want to start a new one, click the "Go Back" button to return to the starting page. Enjoy your time
+            chatting!
         </p>
     </div>
 </body>

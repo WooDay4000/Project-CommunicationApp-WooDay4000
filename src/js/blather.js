@@ -4,21 +4,25 @@ import Ably from 'ably';
 
 class Blather {
     constructor() {
-        this.$chatBox = document.getElementById("chat-box");
+        this.$chatBox = document.getElementById("chatBox");
         this.$message = document.getElementById("messageInput");
         this.$submit = document.getElementById("submitMessage");
-        this.$loadingIndicator = document.querySelector('#loadingIndicator');
-
+        this.$returnButton = document.getElementById("return-button");
+        this.$roomNumber = document.getElementById("roomNumber");
         this.userInformation = JSON.parse(localStorage.getItem("userInformation"));
-        if (this.userInformation == null) {
-            document.getElementById("room-number").innerHTML = "Nothing";
-        } else {
-            document.getElementById("room-number").innerHTML = this.userInformation.key;
-            this.ably = new Ably.Realtime(ABLY_KEY);
-            this.channel = this.ably.channels.get(this.userInformation.key);
 
-            this.channel.subscribe((message) => {
-                //console.log("New message received: " + message.data);
+        this.$returnButton.addEventListener("click", (event) => {
+            window.location.href = "index.html"
+        })
+
+        if (this.userInformation == null) {
+            this.$roomNumber.innerHTML = "Nothing";
+        } else {
+            this.$roomNumber.innerHTML = this.userInformation.key;
+            this.ably = new Ably.Realtime(ABLY_KEY);
+            this.channel = this.ably.channels.get(`chatting:${this.userInformation.key}`);
+
+            this.channel.subscribe(() => {
                 this.displayMessages();
             });
 
@@ -36,12 +40,19 @@ class Blather {
     }
 
     publishMessage() {
+        const currentDate = new Date();
+        const day = currentDate.getDate();
+        const month = currentDate.getMonth() + 1;
+        const year = currentDate.getFullYear();
+
         const messageData = {
-            timestamp: new Date().toISOString(),
+            timestamp: currentDate.toISOString(),
             name: "chat_message",
             data: {
                 sender: this.userInformation.name,
                 message: this.$message.value,
+                date: `${month}/${day}/${year}`,
+                time: currentDate.toLocaleTimeString(),
             },
         };
 
@@ -50,7 +61,7 @@ class Blather {
             'Content-Type': 'application/json'
         });
 
-        fetch(`https://rest.ably.io/channels/${this.userInformation.key}/messages`, {
+        fetch(`https://rest.ably.io/channels/chatting:${this.userInformation.key}/messages`, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(messageData)
@@ -59,7 +70,6 @@ class Blather {
             .then(data => {
                 console.log('Message published successfully:', data);
                 this.$message.value = "";
-                this.displayMessages();
             })
             .catch(error => {
                 console.error('Error publishing message:', error);
@@ -72,7 +82,7 @@ class Blather {
             'Content-Type': 'application/json'
         });
 
-        fetch(`https://rest.ably.io/channels/${this.userInformation.key}/messages`, {
+        fetch(`https://rest.ably.io/channels/chatting:${this.userInformation.key}/messages`, {
             method: 'GET',
             headers: headers,
         })
@@ -86,11 +96,10 @@ class Blather {
                         data: JSON.parse(message.data)
                     });
                 }
-                console.log('Message history:', messageData);
-                this.$loadingIndicator.classList.remove('visually-hidden');
                 this.$chatBox.innerHTML = "";
                 if (messageData.length !== 0) {
                     messageData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                    console.log('Message history:', messageData);
                     let messageHtml = messageData.reduce((html, message) => {
                         return html + this.generateMessageHtml(message);
                     }, '');
@@ -103,27 +112,22 @@ class Blather {
             })
             .catch((error) => {
                 this.$loadingIndicator.classList.add('visually-hidden');
-                console.error("Fetch error: ", error);
+                localStorage["fetchError"] = json.stringify(error);
+                window.location.href = "index.html";
             });
     }
 
-
     generateMessageHtml(message) {
         return `
-            <div class="message ${message.data.sender == this.userInformation.name ? 'current-user' : 'other-user'}">
+            <div class="message ${message.data.sender == this.userInformation.name ? 'currentUser' : 'otherUsers'}">
                 <div class="sender">
-                    <h7>${message.data.sender}</h7>
+                    <h7><span class="senderName">${message.data.sender}</span> - ${message.data.date}, ${message.data.time}</h7>
                 </div>    
-                <div class="user-message">
+                <div class="userMessage">
                     <p>${message.data.message}</p>
                 </div>
             </div>
         `
-
-        /* console.log("Message:", message); // Check the message object
-        const messageHtml = `<div>${message.data.sender} - ${message.data.message}</div>`;
-        console.log("Message HTML:", messageHtml); // Check the generated HTML
-        return messageHtml; */
     }
 }
 

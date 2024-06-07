@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div id="chatSetUpContainer" class="container">
         <div class="form-area">
             <h1 class="title">Communication App</h1>
             <form id="connectionForm">
@@ -20,29 +20,23 @@
                     <label for="key">Key:</label>
                     <input type="text" class="form-control" id="key" name="key" placeholder="Enter key...">
                 </div>
-                <div id="button-container">
+                <div class="buttonContainer">
                     <button id="submitIndex" type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
         <h3 class="title text-center">Instructions</h3>
         <p class="instructions">
-            To be able to begin chatting with someone, first input a name that you would like to go by during the
-            chat,
-            please be respectful, to the name input. The key input is used to help connect to the person or people you would
-            like
-            to chat with, acting as the shared instance that connects everyone consisting of five digit code. With these inputs filled, you'll be
-            able
-            to click the submit button which will attempt to send you to a chat room with the person that has the
-            shared
-            key. When successful you will be able to begin chatting with the person, if unsuccessful it sends you
-            back
-            to the starting page to prompt another attempt to connect via the submit button or changing the key
-            variable
-            if the issue lies there.
+            To begin chatting with someone, first, put a name into the name input you would like to go by during the
+            chat, please be respectful. Second, put a key into the key input, this is used to help connect to the person
+            or people you would like to chat with, with this being a 5-digit code that you create. If you're having
+            trouble finding someone to talk with, simply use a key where all five digits are the same number from 1 to
+            9. With those inputs filled, you'll be able to click the submit button which will attempt to send you to a
+            chat room with the person or people that has the shared key. When successful you can begin chatting with the
+            person, if unsuccessful it sends you back to the starting page to prompt another attempt to connect via the
+            submit button.
         </p>
     </div>
-    <a href="blather.html">Go to New Page</a>
 </body>
 
 </html>
