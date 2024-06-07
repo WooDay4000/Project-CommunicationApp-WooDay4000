@@ -1,5 +1,7 @@
+/* Completed By Samuel Kjelde, 6/6/2024 */
+
 body {
-    background-image: url('../assets/images/background.jpg');
+    background-image: url('../assets/images/background.webp');
 }
 
 .container {
@@ -9,6 +11,10 @@ body {
 
 #chatSetUpContainer {
     margin-top: 150px;
+}
+
+#blatherContainer {
+    margin-top: 55px;
 }
 
 .title {
@@ -115,10 +121,18 @@ label {
     #chatSetUpContainer {
         margin-top: 75px;
     }
+
+    #blatherContainer {
+        margin-top: 0px;
+    }
 }
 
 @media only screen and (max-height: 736px) {
     #chatSetUpContainer {
         margin-top: 50px;
+    }
+
+    #blatherContainer {
+        margin-top: 0px;
     }
 }
